@@ -1,5 +1,6 @@
 ---
 title: "鄉村都市地區車站人數比較"
+author: "廖永賦"
 date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
@@ -25,7 +26,8 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE,
 	comment = NA,
-	dev = 'svglite',
+	dev = 'svg',
+	dpi = 300,
 	out.width = '100%',
 	fig.dim=c(8,4)
 )
@@ -63,7 +65,7 @@ top_4_small_stations <- tmp$station[140:145]
   
   - 這個指標主要是為了 normalize 大小站的進出人數區別。指標的數值越大 (正)，代表當日較多人進站，也就是該站當天為**人口移入**的地區；反之，若指標越小 (負)，代表該站當天為**人口移出**的地區。
   
-  - 因為這個指標的特性，通常小站 (進出站總人數較低) 的振幅會很明顯。這個指標個重點主要是看值的或是曲線的趨勢 (上升、下降、尖角)。
+  - 因為這個指標的特性，通常小站 (進出站總人數較低) 的振幅會很明顯。這個指標個重點主要是看值的正負或是曲線變化的趨勢 (上升、下降、尖角)。
 
 - 兩條縱向虛線：每張圖中有兩條縱向虛線，
 
