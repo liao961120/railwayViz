@@ -13,7 +13,7 @@
 
 <meta name="date" content="2019-05-01" />
 
-<title>初步視覺化</title>
+<title>視覺化都市化現象</title>
 
 <script src="index_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +21,9 @@
 <script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="index_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="index_files/navigation-1.1/tabsets.js"></script>
 <link href="index_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="index_files/highlightjs-9.12.0/highlight.js"></script>
@@ -176,6 +179,92 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -185,13 +274,24 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="fluid-row" id="header">
 
 
 
-<h1 class="title toc-ignore">初步視覺化</h1>
+<h1 class="title toc-ignore">視覺化都市化現象</h1>
+<h3 class="subtitle">都市化指標的計算</h3>
 <h4 class="author">廖永賦</h4>
 <h4 class="date">2019-05-01</h4>
 
@@ -200,6 +300,7 @@ $(document).ready(function () {
 
 <div class="section level2">
 <h2>地圖指標說明</h2>
+<p>承接<a href="https://liao961120.github.io/railwayViz/explore/">鄉村、都市地區車站人數比較</a></p>
 <p>指標：<span class="math inline">\(\frac{出站人數~-~進站人數}{出站人數~+~進站人數}\)</span></p>
 <ul>
 <li><p><code>nye_idx</code>: 除夕當日的指標</p></li>
@@ -207,16 +308,18 @@ $(document).ready(function () {
 <ul>
 <li>挑星期三是因為想找平時上班日，星期三通常比較不會遇到彈性放假的日期，而使用的這幾個月份是因為比較不容易遇到颱風。</li>
 </ul></li>
-<li><p><code>urban_idx</code>: <code>avg_idx - nye_idx</code>。這個指標拿平日和除夕比較，其數值越小，代表該地在除夕時返鄉人潮最明顯，因此推論是人口外流的地區；反之，若越大，代表其為人口移入區 (正在都市化)。</p></li>
+<li><p><code>urban_idx</code>: <code>avg_idx</code> - <code>nye_idx</code>。這個指標拿平日和除夕比較，其數值越小，代表該地在除夕時返鄉人潮最明顯，因此推論是人口外流的地區；反之，若越大，代表其為人口移入區 (正在都市化)。</p></li>
 </ul>
 </div>
 <div id="-2018" class="section level2">
 <h2>地圖: 2018</h2>
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.svg" width="33%" /><img src="index_files/figure-html/unnamed-chunk-2-2.svg" width="33%" /><img src="index_files/figure-html/unnamed-chunk-2-3.svg" width="33%" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.svg" width="33%" /><img src="index_files/figure-html/unnamed-chunk-2-2.svg" width="33%" /><img src="index_files/figure-html/unnamed-chunk-2-3.svg" width="33.5%" /></p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
