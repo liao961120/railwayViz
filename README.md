@@ -4,7 +4,7 @@
 
 ## 詳細資訊
 
-更多資訊，請閱讀 <https://liao961120.github.io/railwayViz/>。
+更多資訊，請閱讀 <https://liao961120.github.io/railwayViz/>
 
 ## Installation
 
