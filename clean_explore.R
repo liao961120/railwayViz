@@ -20,10 +20,11 @@ data <- data %>%
 
 #### Plotting ####
 
-## Function: Filter year and stations
-filter_sta_y <- function(data, sta = '台北', year = 2005) {
+## Function: Filter years and stations
+filter_sta_y <- function(data, sta = '台北', years = 2005, months = 1:12) {
   data %>% filter(station %in% sta) %>%
-    filter(year(date) == year )
+    filter(year(date) %in% years) %>%
+    filter(month(date) %in% months)
 }
 
 ## Function: Plot time series data of 1 year (daily) for many stations
@@ -33,14 +34,15 @@ plot_daily <- function(data, print = TRUE) {
   pl <- ggplot(data = data) +
     geom_line(aes(
       x = date, 
-      y = (num_in - num_out)/(num_in + num_out),
+      y = (num_out - num_in)/(num_in + num_out),
       color = station), 
       size = 0.3) +
     geom_vline(xintercept = as.numeric(new_year_date), 
                linetype = 4, size = 0.2) +
     geom_vline(xintercept = as.numeric(new_year_date - days(1)), 
                linetype = 3, size = 0.2) +
-    labs(y = '(進站 - 出站) / 總人數') +
+    labs(y = '(出站 - 進站) / 總人數',
+         x = lubridate::year(new_year_date)) +
     theme(axis.title.y = element_text(size = 10))
   if (print) print(pl)
   return(pl)
