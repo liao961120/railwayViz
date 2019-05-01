@@ -1,0 +1,5 @@
+^data-raw$
+\.csv$
+^docs$
+^railwayDailyCarry\.Rproj$
+^\.Rproj\.user$

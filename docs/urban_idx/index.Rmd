@@ -1,0 +1,65 @@
+---
+title: "初步視覺化"
+author: "廖永賦"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2:
+   self_contained: false
+   number_sections: false
+   css: style.css
+#  rmdformats::html_clean:
+#    self_contained: false
+#    highlight: kate
+#    use_bookdown: true
+#    number_sections: false
+#    css: style.css
+---
+
+
+```{r setup, echo=FALSE, cache=FALSE}
+library(knitr)
+library(svglite)
+library(railwayViz)
+## Global options
+options(max.print="75")
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.dim = c(4, 7),
+	message = FALSE,
+	warning = FALSE,
+	comment = NA,
+	dev = "svg",
+	dpi = 300,
+	out.width = "100%"
+)
+```
+
+
+```{r include=FALSE}
+ori_dir <- getwd()
+setwd('../../data-raw')
+source('shp_read.R')
+setwd(ori_dir)
+```
+
+## 地圖指標說明
+
+指標：$\frac{出站人數~-~進站人數}{出站人數~+~進站人數}$
+
+- `nye_idx`: 除夕當日的指標
+
+- `avg_idx`: 從 3, 4, 5, 11, 12 月，共挑出 14 個星期三 (刻意避開國定假期) 的日期，平均起來後，再計算指標
+
+  - 挑星期三是因為想找平時上班日，星期三通常比較不會遇到彈性放假的日期，而使用的這幾個月份是因為比較不容易遇到颱風。
+
+- `urban_idx`: `avg_idx - nye_idx`。這個指標拿平日和除夕比較，其數值越小，代表該地在除夕時返鄉人潮最明顯，因此推論是人口外流的地區；反之，若越大，代表其為人口移入區 (正在都市化)。
+
+## 地圖: 2018
+
+```{r out.width=c('33%','33%','33%'), fig.show='hold'}
+pl_nye + labs(title = '2018 除夕火車站進出站人數狀況')
+pl_avg + labs(title = '2018 星期三火車站進出站人數狀況')
+pl_urban + labs(title = '2018 各地 (火車站) 都市化程度指標')
+```
+
+
