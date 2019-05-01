@@ -24,7 +24,7 @@ library(railwayViz)
 options(max.print="75")
 knitr::opts_chunk$set(
 	echo = FALSE,
-	fig.dim = c(4, 7),
+	fig.dim = c(5, 7),
 	message = FALSE,
 	warning = FALSE,
 	comment = NA,
