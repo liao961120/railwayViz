@@ -7,5 +7,6 @@
 compare_nye2normal(carry, year)
 }
 \description{
-Get New Year's Eve & normal Wednesdays stats of a given year
+Three columns, \code{date} (class: Date), \code{num_in},
+and \code{num_out} must be present in \code{carry}.
 }
