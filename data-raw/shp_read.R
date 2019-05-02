@@ -31,13 +31,13 @@ stations <- sf::st_read('station_loc_shp/VP0264V02.shp',
   mutate(station = gsub('臺', '台', station)) %>%
   filter(landmarkna != '基隆新站南站')
 
-## Calculate New Year's Eve Stats & Normal days stats
+## Calculate New Year's Eve Stats & Working days stats
 carry_nye_normal <- compare_nye2normal(carry, 2018)
 
 ## Convert carry_nye_normal to spatial data frame
 carry_nye_normal <- to_sf(carry_nye_normal, stations)
 
-## Calculation of indeices
+## Calculation of indices
 carry_nye_normal <- carry_nye_normal %>%
   mutate(nye_idx = (num_out_nye-num_in_nye)/(num_in_nye+num_out_nye),
          avg_idx = (num_out_avg-num_in_avg)/(num_in_avg+num_out_avg)) %>%
@@ -78,7 +78,7 @@ pl_nye <- base_map +
   tweak
 
 
-# Normal Days
+# Working Days
 pl_avg <- base_map +
   geom_sf(aes(color = avg_idx)) +
     scale_colour_gradientn(colours = rev(palette),
@@ -88,15 +88,16 @@ pl_avg <- base_map +
 
 
 # Urban Index
-color_rng <- max(abs(range(carry_nye_normal$urban_idx)))
+#color_rng <- max(abs(range(carry_nye_normal$urban_idx)))
+color_rng <- 1
 pl_urban <- base_map +
   geom_sf(aes(color = urban_idx)) +
     scale_colour_gradientn(colours = rev(palette),
                            limits = c(-color_rng, color_rng),
                            trans = sqrt4) +
-  geom_sf_text(aes(label = if_else(urban_idx >= 0.8,
+  geom_sf_text(aes(label = if_else(urban_idx >= 0.75,
                                    station, NULL)), color = 'red') +
-  geom_sf_text(aes(label = if_else(urban_idx <= -0.8,
+  geom_sf_text(aes(label = if_else(urban_idx <= -0.75,
                                    station, NULL)), color = 'blue') +
   tweak
 
