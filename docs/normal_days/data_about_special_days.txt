@@ -1,0 +1,2 @@
+# 颱風資料庫
+http://rdc28.cwb.gov.tw/TDB/ntdb/pageControl/ty_warning

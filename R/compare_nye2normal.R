@@ -1,23 +1,19 @@
 #' Get New Year's Eve & normal Wednesdays stats of a given year
+#'
+#' Three columns, \code{date} (class: Date), \code{num_in},
+#' and \code{num_out} must be present in \code{carry}.
+#'
 #' @import dplyr
+#' @importFrom lubridate ymd
 #' @export
 compare_nye2normal <- function(carry, year) {
   # Date of New Years Eve & 'normal' Wednesdays
+  all_dates <- seq(ymd(paste0(year, '-01-01')), ymd(paste0(year, '-12-31')),
+                   by = 'days')
+  working_days <- all_dates[is_working_day(as.character(all_dates))]
+
   relevant_days <- list(new_year_eve = nye_date(year),
-                        wednesdays = c(cl_wed_date(year, 3, 7),
-                                       cl_wed_date(year, 3, 15),
-                                       cl_wed_date(year, 3, 23),
-                                       cl_wed_date(year, 4, 15),
-                                       cl_wed_date(year, 4, 23),
-                                       cl_wed_date(year, 5, 7),
-                                       cl_wed_date(year, 5, 15),
-                                       cl_wed_date(year, 5, 23),
-                                       cl_wed_date(year, 11, 7),
-                                       cl_wed_date(year, 11, 15),
-                                       cl_wed_date(year, 11, 23),
-                                       cl_wed_date(year, 12, 7),
-                                       cl_wed_date(year, 12, 15),
-                                       cl_wed_date(year, 12, 23)))
+                        working_days = working_days)
 
   # Filter data to only relevant days
   carry <- carry %>%
@@ -29,20 +25,20 @@ compare_nye2normal <- function(carry, year) {
     select(-date) %>%
     rename(num_in_nye = num_in, num_out_nye = num_out)
 
-  # Normal Wednesdays avg. stats
-  carry_ndays_avg <- carry %>%
+  # Working Days avg. stats
+  carry_wdays_avg <- carry %>%
     filter(date != nye_date(year)) %>%
     group_by(station) %>%
     summarise(num_in_avg = mean(num_in),
               num_out_avg = mean(num_out))
 
-  # Combine New Year's Eve data & Normal Wednesdays data
+  # Combine New Year's Eve data & Working Days data
   carry_nye_v_normal <- left_join(carry_nye,
-                                  carry_ndays_avg,
+                                  carry_wdays_avg,
                                   by = c('station' = 'station'))
 }
 
-#' Convert dataframe to sf spatial data frame
+#' Convert data frame to sf spatial data frame
 #'
 #' Merge data returned from \code{compare_nye2normal} with
 #' sf datafrme \code{stations}.
