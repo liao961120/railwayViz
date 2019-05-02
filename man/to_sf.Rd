@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare_nye2normal.R
 \name{to_sf}
 \alias{to_sf}
-\title{Convert dataframe to sf spatial data frame}
+\title{Convert data frame to sf spatial data frame}
 \usage{
 to_sf(carry_nye_normal, stations)
 }
