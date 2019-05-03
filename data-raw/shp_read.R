@@ -11,6 +11,7 @@ carry <- readr::read_csv('2005-2017.csv') %>%
 colnames(carry) <- c('date', 'id', 'station', 'num_in', 'num_out')
 carry <- carry %>%
   mutate(date = as.Date(as.character(date), '%Y%m%d')) %>%
+  filter(num_in >=0 & num_out >= 0) %>%
   select(date, station, num_in, num_out)
 
 ## Filter Discarded stations
@@ -31,17 +32,11 @@ stations <- sf::st_read('station_loc_shp/VP0264V02.shp',
   mutate(station = gsub('臺', '台', station)) %>%
   filter(landmarkna != '基隆新站南站')
 
-## Calculate New Year's Eve Stats & Working days stats
-carry_nye_normal <- compare_nye2normal(carry, 2018)
+## Calculate New Year's Eve Stats, Working days stats, & Urbanization index
+carry_nye_wdays <- compare_nye2wdays(carry, 2018)
 
-## Convert carry_nye_normal to spatial data frame
-carry_nye_normal <- to_sf(carry_nye_normal, stations)
-
-## Calculation of indices
-carry_nye_normal <- carry_nye_normal %>%
-  mutate(nye_idx = (num_out_nye-num_in_nye)/(num_in_nye+num_out_nye),
-         avg_idx = (num_out_avg-num_in_avg)/(num_in_avg+num_out_avg)) %>%
-  mutate(urban_idx = avg_idx - nye_idx)
+## Convert carry_nye_wdays to spatial data frame
+carry_nye_wdays <- to_sf(carry_nye_wdays, stations)
 
 
 ######## plot sf ##########
@@ -61,7 +56,7 @@ tweak <- theme(axis.title.x = element_text(size = 0),
                axis.title.y = element_text(size = 0),
                axis.text.x = element_text(size = 8))
 
-base_map <- ggplot(data = carry_nye_normal) +
+base_map <- ggplot(data = carry_nye_wdays) +
   geom_sf(data = taiwan, colour = "#404040", size = 0.1) +
   scale_x_continuous(limits = c(119.6, 122.3)) + #c(119.7,122.25),
   scale_y_continuous(limits = c(21.65, 25.45))#c(21.8, 25.4),
@@ -80,7 +75,7 @@ pl_nye <- base_map +
 
 # Working Days
 pl_avg <- base_map +
-  geom_sf(aes(color = avg_idx)) +
+  geom_sf(aes(color = avg_wday_idx)) +
     scale_colour_gradientn(colours = rev(palette),
                            limits=c(-1, 1),
                            trans = sqrt4) +
@@ -88,8 +83,9 @@ pl_avg <- base_map +
 
 
 # Urban Index
-#color_rng <- max(abs(range(carry_nye_normal$urban_idx)))
+#color_rng <- round(max(abs(range(carry_nye_wdays$urban_idx))), 1)
 color_rng <- 1
+
 pl_urban <- base_map +
   geom_sf(aes(color = urban_idx)) +
     scale_colour_gradientn(colours = rev(palette),

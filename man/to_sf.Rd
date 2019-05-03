@@ -7,6 +7,6 @@
 to_sf(carry_nye_normal, stations)
 }
 \description{
-Merge data returned from \code{compare_nye2normal} with
+Merge data returned from \code{compare_nye2wdays} with
 sf datafrme \code{stations}.
 }

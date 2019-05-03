@@ -53,13 +53,13 @@ setwd(ori_dir)
 
 - `nye_idx`: 除夕當日的指標
 
-- `avg_idx`: 所有工作日加總平均後的指標。工作日的定義是星期一至四，並且非國定假日、彈性放假或颱風天的日子。這個定義是為了控制會大幅影響搭乘臺鐵人數的因素。決定是否為工作日的程式碼託管於 [GitHub](https://github.com/liao961120/railwayViz/blob/7dbcec1387c27c87106dfe819a9043b35cf673cc/R/special_dates.R#L27-L71)。
+- `avg_wday_idx`: 所有工作日的指標之平均。工作日的定義是星期一至四，並且非國定假日、彈性放假或颱風天的日子。這個定義是為了控制會大幅影響搭乘臺鐵人數的因素。決定是否為工作日的程式碼託管於 [GitHub](https://github.com/liao961120/railwayViz/blob/7dbcec1387c27c87106dfe819a9043b35cf673cc/R/special_dates.R#L27-L71)。
 
-- `urban_idx`: `avg_idx` - `nye_idx`。這個指標拿平日和除夕比較，其數值越小，代表該地在除夕時返鄉人潮最明顯，因此推論是人口外流的地區；反之，若越大，代表其為人口移入區 (正在都市化)。
+- `urban_idx`: `avg_wday_idx` - `nye_idx`。這個指標拿平日和除夕比較，其數值越小，代表該地在除夕時返鄉人潮最明顯，因此推論是人口外流的地區；反之，若越大，代表其為人口移入區 (正在都市化)。
 
 ## 地圖: 2018
 
-```{r out.width=c('33%','33%','33.5%'), fig.show='hold'}
+```{r out.width=c('33%','33%','33%'), fig.show='hold'}
 pl_nye + labs(title = '2018 除夕 臺鐵進出站人數狀況')
 pl_avg + labs(title = '2018 工作日 臺鐵進出站人數狀況')
 pl_urban + labs(title = '2018 各地 (車站) 都市化程度指標')
