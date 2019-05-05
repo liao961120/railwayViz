@@ -4,7 +4,7 @@
 \alias{compare_nye2wdays}
 \title{Get New Year's Eve & normal Wednesdays stats of a given year}
 \usage{
-compare_nye2wdays(carry, year)
+compare_nye2wdays(carry, year, groupby = "station")
 }
 \description{
 Three columns, \code{date} (class: Date), \code{num_in},

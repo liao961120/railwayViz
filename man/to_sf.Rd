@@ -4,9 +4,9 @@
 \alias{to_sf}
 \title{Convert data frame to sf spatial data frame}
 \usage{
-to_sf(carry_nye_normal, stations)
+to_sf(carry_nye_wdays, sf, ...)
 }
 \description{
 Merge data returned from \code{compare_nye2wdays} with
-sf datafrme \code{stations}.
+sf datafrme.
 }
