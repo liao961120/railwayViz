@@ -8,6 +8,8 @@ Authors@R:
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-1814-2993"))
 Description: Visualizing urbanization through railway data in Taiwan.
+URL: https://liao961120.github.io/railwayViz/, https://github.com/liao961120/railwayViz
+BugReports: https://github.com/liao961120/railwayViz/issues
 Depends: R (>= 3.5.3)
 License: GPL-3
 Encoding: UTF-8
