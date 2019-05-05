@@ -174,7 +174,7 @@ def _getNumCnDate(_date):
                 _month_days = _leap_day
                 if (_span_days < _month_days):
                     """ 指定日期在闰月中 ???"""
-                    _month = (leap_month<<4) | month
+                    _month = (_leap_month<<4) | _month  # change `leap_month` to `_leap_month`; `month` to `_month`
                     break
                 """ 否则扣除闰月天数，月份加一 """
                 _span_days -= _month_days
@@ -193,7 +193,7 @@ def _getNumCnDate(_date):
             if (_month == _leap_month):
                 _month_days = _leap_day
                 if (abs(_span_days) <= _month_days): # 指定日期在闰月中
-                    _month = (leap_month<<4) | month
+                    _month = (_leap_month<<4) | _month  # change `leap_month` to `_leap_month`; `month` to `_month`
                     break
                 _span_days += _month_days
             _month_days = _cnMonthDays(_year, _month)[0]
@@ -250,8 +250,16 @@ def tolunar(year, month, day):
     year = int(year)
     month = int(month)
     day = int(day)
+    leap_month = int(0)
     
-    lunar_month = months.index(getCnMonth(datetime(year, month, day))) + 1
-    lunar_day = days.index(getCnDay(datetime(year, month, day))) + 1
+    lunar_month = getCnMonth(datetime(year, month, day))
+    if lunar_month[0] == '闰':
+        leap_month = int(1)
+        lunar_month = lunar_month[1:]
+        
+    lunar_day = getCnDay(datetime(year, month, day))
     
-    return [lunar_month, lunar_day]
+    lunar_month = months.index(lunar_month) + 1
+    lunar_day = days.index(lunar_day) + 1
+    
+    return [lunar_month, lunar_day, leap_month]

@@ -45,8 +45,12 @@ is_working_day_atom <- function(year, month, day) {
 
   # Lunar Holidays?
   message('Lunar holiday')
-  tmp <- sprintf("%02d", tolunar(year, month, day))
-  if (paste(tmp, collapse = '-') %in% lunar_holidays) return(FALSE)
+  lunar_date <- tolunar(year, month, day)
+  ## 非閏月
+  if (lunar_date[3] == 0){
+    tmp <- sprintf("%02d", lunar_date[-3])
+    if (paste(tmp, collapse = '-') %in% lunar_holidays) return(FALSE)
+  }
 
   # Typhoons?
   message('typhoons')
@@ -61,7 +65,13 @@ is_working_day_atom <- function(year, month, day) {
     dd <- day(tomorrow)
 
     solar_date <- paste(sprintf("%02d", c(mm, dd)), collapse = '-')
-    lunar_date <- paste(sprintf("%02d", tolunar(yyyy, mm, dd)), collapse = '-')
+
+    lunar_date <- tolunar(yyyy, mm, dd)
+    if (lunar_date[3] == 0) {
+      lunar_date <- paste(sprintf("%02d", lunar_date[-3]), collapse = '-')
+    } else {
+      lunar_date <- '03-05' # A date that isn't special
+    }
 
     # Tue. is Holiday?
     if (solar_date %in% holidays || lunar_date %in% lunar_holidays) return(FALSE)
