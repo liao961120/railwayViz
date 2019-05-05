@@ -1,3 +1,10 @@
+#' Plot Choropleth Map with County Level Data
+#' @examples
+#' \dontrun{
+#' compare_nye_normal %>%
+#'   filter(year == 2018) %>%
+#'   pl_choropleth(index = urban_idx, palette = 'Spectral')
+#' }
 #' @importFrom rlang !!
 #' @export
 pl_choropleth <- function(.data, index, palette = c("RdBu", "Spectral"), theme = NULL, print = TRUE) {

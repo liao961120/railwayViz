@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • railwayViz</title>
+<title>Plot Choropleth Map with County Level Data — pl_choropleth • railwayViz</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,7 +32,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Plot Choropleth Map with County Level Data — pl_choropleth" />
+
+<meta property="og:description" content="Plot Choropleth Map with County Level Data" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -49,7 +52,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -91,96 +94,37 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Plot Choropleth Map with County Level Data</h1>
+    
+    <div class="hidden name"><code>pl_choropleth.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Plot Choropleth Map with County Level Data</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>pl_choropleth</span>(<span class='no'>.data</span>, <span class='no'>index</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"RdBu"</span>, <span class='st'>"Spectral"</span>),
+  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>print</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+        
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="cl_wday_date.html">cl_wday_date()</a></code> </p>
-        </td>
-        <td><p>Set Date by weekday</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cl_wed_date.html">cl_wed_date()</a></code> </p>
-        </td>
-        <td><p>Set Date by weekday</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compare_nye2wdays.html">compare_nye2wdays()</a></code> </p>
-        </td>
-        <td><p>Get New Year's Eve &amp; normal Wednesdays stats of a given year</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_stations.html">filter_stations()</a></code> </p>
-        </td>
-        <td><p>Given the data <code>carry</code>, retrieve the filtered data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_working_day.html">is_working_day()</a></code> </p>
-        </td>
-        <td><p>Is the given dates a working day?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_working_day_atom.html">is_working_day_atom()</a></code> </p>
-        </td>
-        <td><p>Is the date given 'normal' (Not holidays, not weekends)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nye_date.html">nye_date()</a></code> </p>
-        </td>
-        <td><p>Retrieve the date of Chinese New Year</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pl_choropleth.html">pl_choropleth()</a></code> </p>
-        </td>
-        <td><p>Plot Choropleth Map with County Level Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="to_sf.html">to_sf()</a></code> </p>
-        </td>
-        <td><p>Convert data frame to sf spatial data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tolunar.html">tolunar()</a></code> </p>
-        </td>
-        <td><p>Return the month and day of the lunar calendar</p></td>
-      </tr>
-    </tbody>
-    </table>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>compare_nye_normal</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='no'>year</span> <span class='kw'>==</span> <span class='fl'>2018</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>pl_choropleth</span>(<span class='kw'>index</span> <span class='kw'>=</span> <span class='no'>urban_idx</span>, <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>'Spectral'</span>)
+<span class='co'># }</span></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
