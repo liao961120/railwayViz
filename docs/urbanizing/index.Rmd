@@ -1,0 +1,83 @@
+---
+title: "各縣市的都市化程度"
+subtitle: "近 13 年的演變"
+author: "廖永賦"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2:
+    self_contained: false
+    number_sections: false
+    css: style.css
+    toc: no
+    toc_float: true
+#  rmdformats::html_clean:
+#    self_contained: false
+#    highlight: kate
+#    use_bookdown: true
+#    number_sections: false
+#    css: style.css
+---
+
+
+```{r setup, echo=FALSE, cache=FALSE}
+library(knitr)
+library(svglite)
+library(railwayViz)
+## Global options
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	comment = NA,
+	dev = "svglite",
+	dpi = 300,
+	out.width = "100%"
+)
+```
+
+讀取各車站資料，將屬同縣市的車站資料合併，取得每日各縣市臺鐵進出站人數。
+
+```r
+library(dplyr)
+fp <- system.file('railway-data', '2005-2018_carry.RDS', package = 'railwayViz')
+carry <- readRDS(fp) %>%
+  group_by(date, county) %>%
+  summarise(num_in = sum(num_in), num_out = sum(num_out)) %>%
+  ungroup()
+```
+
+
+將資料合併至臺灣縣市界的地理資料
+
+```r
+fp <- system.file('railway-data', 'twcounty-shp.RDS', package = 'railwayViz')
+taiwan <- readRDS(fp)
+```
+
+計算指標：除夕、平日以及都市化指標
+
+```r
+carry_nye_wdays <- compare_nye2wdays(carry, 2018, groupby = 'county')
+carry_nye_wdays <- to_sf(carry_nye_wdays, taiwan)
+```
+
+## Maps
+
+```{r}
+source('../../data-raw/choropleth.R')
+```
+
+### 2018 人口移入及都市化指標
+
+```{r, out.width=c('32%','32%', '32%'), fig.show='hold', fig.dim=c(4,5.5)}
+pl_nye + labs(title = '除夕', fill = "移入指標")
+pl_wdays + labs(title = '平日', fill = "移入指標")
+pl_urban_idx + labs(title = '都市化指標', fill = "都市化指標")
+```
+
+### 都市化指標：時間尺度
+
+```{r}
+pl_facet_urban_idx + labs(fill = "都市化指標")
+```
+
