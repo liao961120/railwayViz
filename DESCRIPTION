@@ -1,13 +1,23 @@
 Package: railwayViz
-Title: What the Package Does (one line, title case)
+Title: Visualizing Urbanization through Railway Data
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R:
+    person(given = "Yongfu", 
+           family = "Liao",
+           email = "liao961120@gmail.com", 
+           role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-1814-2993"))
+Description: Visualizing urbanization through railway data in Taiwan.
 Depends: R (>= 3.5.3)
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
     lubridate,
-    dplyr
+    dplyr,
+    sf,
+    rlang,
+    tmaptools,
+    scales,
+    ggplot2

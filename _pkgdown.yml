@@ -1,0 +1,7 @@
+template:
+  params:
+    bootswatch: spacelab
+development:
+  mode: auto
+destination: 'docs/docs'
+url: https://liao961120.github.io/railwayViz/docs/
