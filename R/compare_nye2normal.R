@@ -5,8 +5,9 @@
 #'
 #' @import dplyr
 #' @importFrom lubridate ymd
+#' @import rlang
 #' @export
-compare_nye2wdays <- function(carry, year) {
+compare_nye2wdays <- function(carry, year, groupby = 'station') {
   # Date of New Years Eve & 'normal' Wednesdays
   all_dates <- seq(ymd(paste0(year, '-01-01')), ymd(paste0(year, '-12-31')),
                    by = 'days')
@@ -38,26 +39,25 @@ compare_nye2wdays <- function(carry, year) {
   carry_wdays_avg <- carry %>%
     filter(date != nye_date(year)) %>%
     mutate(wday_idx = (num_out - num_in) / (num_out + num_in)) %>%
-    group_by(station) %>%
+    group_by(!!sym(groupby)) %>%
     summarise(avg_wday_idx = mean(wday_idx))
 
   # Combine New Year's Eve data & Working Days data
+  groupby <- enquo(groupby)
+  by <- set_names(quo_name(groupby), quo_name(groupby))
   carry_nye_v_normal <- left_join(carry_nye,
                                   carry_wdays_avg,
-                                  by = c('station' = 'station')) %>%
+                                  by = by) %>%
     mutate(urban_idx = avg_wday_idx - nye_idx)
 }
 
 #' Convert data frame to sf spatial data frame
 #'
 #' Merge data returned from \code{compare_nye2wdays} with
-#' sf datafrme \code{stations}.
+#' sf datafrme.
 #' @import dplyr
 #' @export
-to_sf <- function(carry_nye_normal, stations) {
-  sf <- dplyr::left_join(carry_nye_normal, stations) %>%
-    sf::st_as_sf(sf_column_name = "geometry") %>%
-    filter(!is.na(landmarkid)) %>%
-    select(station, nye_idx, avg_wday_idx,
-           urban_idx, address, geometry)
+to_sf <- function(carry_nye_wdays, sf, ...) {
+  sf <- dplyr::left_join(carry_nye_wdays, sf, ...) %>%
+    sf::st_as_sf(sf_column_name = "geometry")
 }

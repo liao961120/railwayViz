@@ -3,23 +3,8 @@ library(dplyr)
 library(sf)
 library(railwayViz)
 
-#### Read attribute data: Daily carry ####
-carry_2018 <- readr::read_csv('2018.csv')
-carry_2019 <- readr::read_csv('2019.csv')
-carry <- readr::read_csv('2005-2017.csv') %>%
-  bind_rows(carry_2018, carry_2019)
-colnames(carry) <- c('date', 'id', 'station', 'num_in', 'num_out')
-carry <- carry %>%
-  mutate(date = as.Date(as.character(date), '%Y%m%d')) %>%
-  filter(num_in >=0 & num_out >= 0) %>%
-  select(date, station, num_in, num_out)
-
-## Filter Discarded stations
-invalid_stations <- readr::read_csv('discarded_new_stations.csv')
-invalid_stations <- invalid_stations[!is.na(invalid_stations$`廢站日期`),]$STOP_NAME
-
-carry <- carry %>%
-  filter(!(station %in% invalid_stations))
+## Read binary data
+carry <- readRDS('2005-2018_carry.RDS')
 
 
 ####### Combining Spatial data & calculated stats #######
@@ -36,7 +21,10 @@ stations <- sf::st_read('station_loc_shp/VP0264V02.shp',
 carry_nye_wdays <- compare_nye2wdays(carry, 2018)
 
 ## Convert carry_nye_wdays to spatial data frame
-carry_nye_wdays <- to_sf(carry_nye_wdays, stations)
+carry_nye_wdays <- to_sf(carry_nye_wdays, stations) %>%
+  filter(!is.na(landmarkid)) %>%
+  select(station, nye_idx, avg_wday_idx,
+         urban_idx, address, geometry)
 
 
 ######## plot sf ##########
@@ -48,7 +36,7 @@ sqrt4 <- scales::trans_new('sqrt4',
 
 railway <- sf::st_read('railway_shp/VL0305V02.shp',
                        stringsAsFactors = FALSE)
-taiwan <- sf::st_read('taiwan_country/TWN_county.shp',
+taiwan <- sf::st_read('taiwan_county/TWN_county.shp',
                       stringsAsFactors = FALSE) %>%
   filter(!COUNTYNAME %in% c("澎湖縣", "連江縣", "金門縣"))
 
