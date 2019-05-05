@@ -13,4 +13,4 @@
 remotes::install_github('liao961120/railwayViz')
 ```
 
-[套件文件](https://liao961120.github.io/railwayViz/docs)
+[railwayViz documentation](https://liao961120.github.io/railwayViz/docs)
