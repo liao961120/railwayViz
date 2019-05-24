@@ -15,7 +15,7 @@
 - `taiwan_county.shp`: 臺灣縣市 shapefile
     - 縣市名稱
     - 地理資料: 臺灣縣市 (polygon)
-- `station_urban_idx_2018.shp` (各站):
+- `station_urban_idx_2018.shp` (各站): 資料內容 (+ `taiwan_county.shp`) 同[視覺化都市化現象](https://liao961120.github.io/railwayViz/urban_idx/)最下方三張圖
     - `nye_idx`: 除夕當日指標
     - `avg_idx`: 工作日指標平均
     - `urban_idx`: 都市化指標
