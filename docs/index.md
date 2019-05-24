@@ -6,7 +6,7 @@
 
 1. [各縣市的都市化程度：2005 - 2018](./urbanizing/)
 
-## 處理過後之 `shp`
+## 處理過後之 shapefile
 
 [下載](./taiwan_railway_urban_idx_2018_shp.7z)
 
