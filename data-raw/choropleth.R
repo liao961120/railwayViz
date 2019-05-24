@@ -24,6 +24,7 @@ for (y in c(2005, 2010, 2015, 2018)) {
 fp <- system.file('railway-data', 'twcounty-shp.RDS', package = 'railwayViz')
 taiwan <- readRDS(fp)
 carry_nye_wdays <- to_sf(carry_nye_wdays, taiwan)
+#saveRDS(carry_nye_wdays, 'final-project/county_urban_index-by_year.RDS')
 
 #### Plot ####
 library(ggplot2)

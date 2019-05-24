@@ -25,7 +25,7 @@ carry_nye_wdays <- to_sf(carry_nye_wdays, stations) %>%
   filter(!is.na(landmarkid)) %>%
   select(station, nye_idx, avg_wday_idx,
          urban_idx, address, geometry)
-
+#saveRDS(carry_nye_wdays, '../final-project/station_urban_index-2018.RDS')
 
 ######## plot sf ##########
 library(ggplot2)
